@@ -31,7 +31,7 @@ bedrock_embeddings=BedrockEmbeddings(model_id="amazon.titan-embed-text-v1",clien
 
 ## Data ingestion
 def data_ingestion():
-    loader=PyPDFDirectoryLoader(r"C:\Users\Uyama\Downloads\LANGCHAIN-PROJECTS\AWS\AWS-BEDROCK\data")
+    loader=PyPDFDirectoryLoader(r"C:\Users\Uyama\Downloads\AWS\AWS-BEDROCK\data")
     documents=loader.load()
 
     # - in our testing Character split works better with this PDF data set
@@ -50,12 +50,6 @@ def get_vector_store(docs):
     )
     vectorstore_faiss.save_local("faiss_index")
 
-# def get_claude_llm():
-#     ##create the Anthropic Model
-#     llm=Bedrock(model_id="ai21.j2-mid-v1",client=bedrock,
-#                 model_kwargs={'maxTokens':512})
-    
-    # return llm
 
 def get_llama3_llm():
     ##create the Anthropic Model
@@ -123,7 +117,7 @@ def main():
 
     if st.button("Llama3 Output"):
         with st.spinner("Processing..."):
-            faiss_index = FAISS.load_local("faiss_index", bedrock_embeddings)
+            faiss_index = FAISS.load_local("faiss_index", bedrock_embeddings,allow_dangerous_deserialization=True)
             llm=get_llama3_llm()
             
             #faiss_index = get_vector_store(docs)
